@@ -380,6 +380,19 @@ void chown(
 
 _dart_chown? _chown;
 
+void chmodWithMode(String filename, int mode) {
+  String modeToOctalString(int mode) {
+    final permissions = mode & 0xFFF;
+    final result = [
+      (permissions >> 6) & 0x7,
+      (permissions >> 3) & 0x7,
+      permissions & 0x7
+    ];
+    return result.join();
+  }
+  chmod(filename, modeToOctalString(mode));
+}
+
 /// Change the permission of [filename].
 ///
 /// Pass in the [permissions] as an octal string e.g. 777
